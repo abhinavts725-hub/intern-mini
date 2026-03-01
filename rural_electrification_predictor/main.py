@@ -8,7 +8,7 @@ Date: February 26, 2026
 from pathlib import Path
 
 from src.data_cleaning import clean_dataset
-from src.data_generation import generate_dataset
+import pandas as pd
 from src.eda import run_eda
 from src.model import train_and_evaluate
 from src.preprocessing import preprocess
@@ -30,16 +30,11 @@ def main() -> None:
 
     # Define all required input and output paths relative to project root.
     project_root = Path(__file__).resolve().parent
-    raw_data_path = project_root / "data" / "raw" / "data.csv"
-    processed_data_path = project_root / "data" / "processed" / "rural_electrification_clean.csv"
+    raw_data_path = project_root / "data" / "data.csv"
     output_dir = project_root / "outputs"
 
-    # Step 1: Generate raw synthetic village dataset.
-    generate_dataset(str(raw_data_path))
-
     # Step 2: Clean and validate the raw dataset for modeling.
-    cleaned_df = clean_dataset(str(raw_data_path), str(processed_data_path))
-
+    cleaned_df = pd.read_csv(raw_data_path)
     # Step 3: Run exploratory data  analysis and visualize relationships.
     run_eda(cleaned_df)
 
